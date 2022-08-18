@@ -176,3 +176,19 @@ Now we are done with the Mosquitto configuration, lets integrate it with MQTT in
 - Add your Mosquitto -related information when prompted to do so.
 
 ![image](https://user-images.githubusercontent.com/49016081/185437963-f9da6daf-751f-4b4a-9a54-f5e718224116.png)
+
+### Mosquitto and MQTT broker are now set up. The following will be custom information/setup for different devices.
+
+## Sonoff S26 Switches (Tasmota)
+- Go to configuration->Configure MQTT
+- Add your MQTT information to the fields below.
+ 
+![image](https://user-images.githubusercontent.com/49016081/185445042-5b019272-2517-4f8a-9745-0aa0edd30c20.png)
+- Save configuration and the device should be found in Hassio devices -tab.
+
+## PiHole configuration
+I use PiHole as a DHCP server so the config is pretty straightforward.
+- Go to Settings->Devices&Services->Add Integration
+- Find Pi-Hole integration
+- Add Pi-Hole's IP address and click OK.
+
