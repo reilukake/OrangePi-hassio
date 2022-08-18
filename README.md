@@ -155,6 +155,18 @@ We need to change our mosquitto.conf to read the password from the created pwfil
 ```
 $ sudo nano /opt/mosquitto/config/mosquitto.conf
 ```
+- Uncomment allow_anonymous false
+
+![image](https://user-images.githubusercontent.com/49016081/185442465-67c4137a-f9a1-43e8-bb7d-fc9ee50b0536.png)
+- Uncomment persistence and add true. Add your data folder to the persistence location.
+
+![image](https://user-images.githubusercontent.com/49016081/185442545-78fb8e16-8882-4e46-bff3-8b82ad9cff3f.png)
+- Uncomment listener field and add your port 1883 to the listener field.
+
+![image](https://user-images.githubusercontent.com/49016081/185442661-13198d2d-fbf6-4489-a199-4e532747bac1.png)
+
+
+
 Uncomment the "password_file" line and add the path /mosquitto/config/pwfile.
 ![image](https://user-images.githubusercontent.com/49016081/185436608-7b6dc11d-d65b-4a96-996d-dd76f923a31f.png)
 - Restart Mosquitto from Portainer once again.
@@ -162,4 +174,5 @@ Now we are done with the Mosquitto configuration, lets integrate it with MQTT in
 - Navigate to Settings->Devices&Services->Integrations
 - Click "Add Integration"
 - Add your Mosquitto -related information when prompted to do so.
+
 ![image](https://user-images.githubusercontent.com/49016081/185437963-f9da6daf-751f-4b4a-9a54-f5e718224116.png)
