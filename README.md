@@ -177,7 +177,36 @@ Now we are done with the Mosquitto configuration, lets integrate it with MQTT in
 
 ![image](https://user-images.githubusercontent.com/49016081/185437963-f9da6daf-751f-4b4a-9a54-f5e718224116.png)
 
-### Mosquitto and MQTT broker are now set up. The following will be custom information/setup for different devices.
+### Mosquitto and MQTT broker are now set up. 
+
+## Setting up Tailscale VPN
+Navigate to your /opt/docker-compose.yaml and edit it. Add the following lines to the end of the file:
+```
+## Tailscale VPN
+version: "2.4"
+services:
+  tailscale:
+      privileged: true
+      hostname: tailscale
+      network_mode: "host"
+      container_name: tailscale
+      image: tailscale/tailscale:latest
+      volumes:
+          - "/opt/appdata/tailscale/var_lib:/var/lib"
+          - "/dev/net/tun:/dev/net/tun"
+      cap_add:
+        - net_admin
+        - sys_module
+      command: tailscaled
+      restart: always
+```
+Run the following to have the abilityfor your Host device to be the Exit Node
+```
+docker exec tailscale tailscale up --advertise-exit-node
+```
+Open the link from the tailscale prompt and login with your credentials.
+
+# The following will be custom information/setup for different devices.
 
 ## Sonoff S26 Switches (Tasmota)
 - Go to configuration->Configure MQTT
