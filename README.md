@@ -191,4 +191,3 @@ I use PiHole as a DHCP server so the config is pretty straightforward.
 - Go to Settings->Devices&Services->Add Integration
 - Find Pi-Hole integration
 - Add Pi-Hole's IP address and click OK.
-
