@@ -140,3 +140,26 @@ After that we need to reboot the container from Portainer or via command line.
 ![image](https://user-images.githubusercontent.com/49016081/185434680-10de6a09-1260-4421-bff8-521751780f06.png)
 Next we can check the Mosquitto startup logs from Portainer Logs -icon
 ![image](https://user-images.githubusercontent.com/49016081/185434892-13d88069-1179-4eda-bbab-dcf410b5325b.png)
+
+Now we need to create username & password for Mosquitto.
+Open a terminal to the Mosquitto docker container
+```
+$ sudo docker exec -it mosquitto sh
+```
+Now we have a terminal open inside the Mosquitto container. (hassio is the username in the following command)
+```
+$ mosquitto_passwd -c /mosquitto/config/pwfile hassio
+```
+- Enter your desired password twice and press enter and exit the container with the "exit" command.
+We need to change our mosquitto.conf to read the password from the created pwfile -file.
+```
+$ sudo nano /opt/mosquitto/config/mosquitto.conf
+```
+Uncomment the "password_file" line and add the path /mosquitto/config/pwfile.
+![image](https://user-images.githubusercontent.com/49016081/185436608-7b6dc11d-d65b-4a96-996d-dd76f923a31f.png)
+- Restart Mosquitto from Portainer once again.
+Now we are done with the Mosquitto configuration, lets integrate it with MQTT inside Home Assistant.
+- Navigate to Settings->Devices&Services->Integrations
+- Click "Add Integration"
+- Add your Mosquitto -related information when prompted to do so.
+![image](https://user-images.githubusercontent.com/49016081/185437963-f9da6daf-751f-4b4a-9a54-f5e718224116.png)
