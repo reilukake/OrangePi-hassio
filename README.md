@@ -179,32 +179,43 @@ Now we are done with the Mosquitto configuration, lets integrate it with MQTT in
 
 ### Mosquitto and MQTT broker are now set up. 
 
-## Setting up Tailscale VPN
-Navigate to your /opt/docker-compose.yaml and edit it. Add the following lines to the end of the file:
+## Setting up Wireguard VPN
+Add the following to the bottom of your docker-compose.yaml -file in /opt/ and run "docker-compose up -d"
 ```
-## Tailscale VPN
-version: "2.4"
+## Wireguard VPN
+version: "2.1"
 services:
-  tailscale:
-      privileged: true
-      hostname: tailscale
-      network_mode: "host"
-      container_name: tailscale
-      image: tailscale/tailscale:latest
-      volumes:
-          - "/opt/appdata/tailscale/var_lib:/var/lib"
-          - "/dev/net/tun:/dev/net/tun"
-      cap_add:
-        - net_admin
-        - sys_module
-      command: tailscaled
-      restart: always
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Helsinki
+      - SERVERURL=wireguard.domain.com #optional
+      - SERVERPORT=51820 #optional
+      - PEERS=1 #optional
+      - PEERDNS=auto #optional
+      - INTERNAL_SUBNET=10.13.13.0 #optional
+      - ALLOWEDIPS=0.0.0.0/0 #optional
+      - LOG_CONFS=true #optional
+    volumes:
+      - /path/to/appdata/config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
 ```
-Run the following to have the abilityfor your Host device to be the Exit Node
+### Remember to enable port forwarding from your Modem/Router to the Hassio's IP (Port 51820)
+Next to check if the WireGuard installation is working correctly, type the following command and scan the QR code with your smart device's Wireguard Application
 ```
-docker exec tailscale tailscale up --advertise-exit-node
+$ docker logs wireguard
 ```
-Open the link from the tailscale prompt and login with your credentials.
 
 # The following will be custom information/setup for different devices.
 
