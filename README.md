@@ -179,6 +179,35 @@ Now we are done with the Mosquitto configuration, lets integrate it with MQTT in
 
 ### Mosquitto and MQTT broker are now set up. 
 
+## Zigbee2MQTT setup
+
+First we need to add the Zigbee Integration from hassio -interface. Settings -> Config -> Integrations. Search for Zigbee and install. You need to have the Zigbee dongle installed at this point.
+![image](https://user-images.githubusercontent.com/49016081/186737249-64041cd5-4919-4599-aea9-8945fa569b46.png)
+
+Edit the docker-compose.yaml file located in /opt/ -folder and add the following configuration to it.
+
+```
+## Zigbee2MQTT
+services:
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: always
+    volumes:
+      - ./data:/app/data
+      - /run/udev:/run/udev:ro
+    privileged: true
+    ports:
+      - 8080:8080
+    environment:
+      - TZ=Europe/Helsinki
+    devices:
+      # Check the correct tty -device for your device
+      - /dev/ttyACM0:/dev/ttyACM0
+```
+Pull Zigbee2MQTT with docker compose up -d
+
+
 ## Setting up Wireguard VPN
 Add the following to the bottom of your docker-compose.yaml -file in /opt/ and run "docker-compose up -d"
 ```
