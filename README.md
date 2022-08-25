@@ -194,7 +194,7 @@ services:
     image: koenkk/zigbee2mqtt
     restart: always
     volumes:
-      - ./data:/app/data
+      - ./zigbee2mqtt/data:/app/data
       - /run/udev:/run/udev:ro
     privileged: true
     ports:
