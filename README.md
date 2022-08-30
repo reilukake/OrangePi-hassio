@@ -207,6 +207,7 @@ services:
 ```
 Pull Zigbee2MQTT with docker compose up -d.
 Next we need to edit the Zigbee2MQTT configuration file to correlate with the following. I am using the Sonoff Zigbee Dongle-E (Plus V2)
+I had problems with this part. It seems that adding the adapter: ezsp and removing everything except configuration.yaml -file in /opt/zigbee2mqtt/data -folder helped with my problems. I also unplugged the USB adapter, replugged it and restarted Zigbee2MQTT via Portainer.
 
 ```
 # Home Assistant integration (MQTT discovery)
@@ -215,6 +216,10 @@ homeassistant: true
 # allow new devices to join
 permit_join: true
 
+frontend: 
+ port: 8080
+ host: 0.0.0.0
+ 
 # MQTT settings
 mqtt:
   # MQTT base topic for zigbee2mqtt MQTT messages
@@ -233,6 +238,16 @@ serial:
 
 ```
 
+After this we can add the Zigbee2MQTT to our iPanel configuration. Edit the file in /opt/homeassistant/config/configuration.yaml.
+Add the following lines below the portainer -config added before:
+
+```
+  zigbee2mqtt:
+    title: "Zigbee2MQTT"
+    url: "http://192.168.0.***:8080"
+    icon: mdi:compass-rose
+    require_admin: true
+```
 
 ## Setting up Wireguard VPN
 Add the following to the bottom of your docker-compose.yaml -file in /opt/ and run "docker-compose up -d"
