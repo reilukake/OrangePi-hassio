@@ -205,7 +205,33 @@ services:
       # Check the correct tty -device for your device
       - /dev/ttyACM0:/dev/ttyACM0
 ```
-Pull Zigbee2MQTT with docker compose up -d
+Pull Zigbee2MQTT with docker compose up -d.
+Next we need to edit the Zigbee2MQTT configuration file to correlate with the following. I am using the Sonoff Zigbee Dongle-E (Plus V2)
+
+```
+# Home Assistant integration (MQTT discovery)
+homeassistant: true
+
+# allow new devices to join
+permit_join: true
+
+# MQTT settings
+mqtt:
+  # MQTT base topic for zigbee2mqtt MQTT messages
+  base_topic: zigbee2mqtt
+  # MQTT server URL
+  server: 'mqtt://172.18.0.3'
+  # MQTT server authentication, uncomment if required:
+  user: mqtt-user
+  password: mqtt-pass
+  port: null
+
+# Serial settings
+serial:
+  port: /dev/ttyACM0
+  adapter: ezsp
+
+```
 
 
 ## Setting up Wireguard VPN
