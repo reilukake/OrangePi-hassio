@@ -194,7 +194,7 @@ services:
     image: koenkk/zigbee2mqtt
     restart: always
     volumes:
-      - ./zigbee2mqtt/data:/app/data
+      - /opt/zigbee2mqtt/data:/app/data
       - /run/udev:/run/udev:ro
     privileged: true
     ports:
@@ -232,7 +232,7 @@ services:
       - ALLOWEDIPS=0.0.0.0/0 #optional
       - LOG_CONFS=true #optional
     volumes:
-      - /path/to/appdata/config:/config
+      - /opt/wireguard/config:/config
       - /lib/modules:/lib/modules
     ports:
       - 51820:51820/udp
